@@ -1,9 +1,27 @@
-Rails.application.routes.draw do
-  resources :restaurants do
-    resources :reviews, only: [:new, :create]
+class RestaurantsController < ApplicationController
+
+  def index
+    @restaurants = Restaurant.all
   end
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  def new
+    @restaurant = Restaurant.new
+  end
+
+  def create
+    @restaurant = Restaurant.new(restaurant_params)
+  end
+
+  def show
+    @restaurant = Restaurant.find(params[:id])
+  end
+
+  private
+
+  def restaurant_params
+    params.require(:restaurant).permit(:name, :address, :category)
+  end
+
 end
 
 # A visitor can see the list of all restaurants.
